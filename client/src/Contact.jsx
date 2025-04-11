@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import axios from './api/axios';
 
 const Contact = () => {
   const [formData, setFormData] = useState({
@@ -7,21 +8,31 @@ const Contact = () => {
     message: '',
   });
 
+  const [loading, setLoading] = useState(false);
+
   const handleChange = (e) => {
     setFormData((prev) => ({ ...prev, [e.target.name]: e.target.value }));
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log('Form Submitted:', formData);
-    alert("Thank you! We'll get back to you soon.");
-    setFormData({ name: '', email: '', message: '' });
+    setLoading(true);
+    try {
+      await axios.post('/contact/send-mail', formData);
+      alert("Thank you! Your message has been sent.");
+      setFormData({ name: '', email: '', message: '' });
+    } catch (error) {
+      alert("Something went wrong. Please try again.");
+      console.error("Error sending email:", error);
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
     <div className="min-h-screen bg-gray-100 p-8">
       <div className="max-w-6xl mx-auto grid md:grid-cols-2 gap-8 bg-white p-8 rounded shadow-md">
-        
+
         {/* Contact Form */}
         <div>
           <h2 className="text-3xl font-bold mb-4">Get in Touch</h2>
@@ -55,9 +66,10 @@ const Contact = () => {
             />
             <button
               type="submit"
-              className="w-full bg-blue-600 text-white py-2 rounded hover:bg-blue-700"
+              className="w-full bg-blue-600 text-white py-2 rounded hover:bg-blue-700 disabled:opacity-50"
+              disabled={loading}
             >
-              Send Message
+              {loading ? "Sending..." : "Send Message"}
             </button>
           </form>
         </div>
