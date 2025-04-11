@@ -3,7 +3,6 @@ import mongoose from 'mongoose';
 const materialSchema = new mongoose.Schema({
   name: { type: String, required: true },
   description: { type: String },
-  category: { type: String, required: true },
   price: { type: Number, required: true },
   unit: { type: String, required: true }, // e.g., per ton, per bag
   imageUrl: { type: String },
