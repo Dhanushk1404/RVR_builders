@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import Navbar from "./Navbar"
+import Navbar from "./Navbar";
 
 const LandingPage = () => {
   const images = [
@@ -24,41 +24,46 @@ const LandingPage = () => {
 
   return (
     <div className="font-sans text-gray-900">
-     
-
       {/* Navbar */}
-      <Navbar/>
+      <Navbar />
 
-      {/* Hero Section with Slideshow */}
+      {/* Hero Section */}
       <div
         id="home"
-        className="relative h-screen flex flex-col justify-center items-center text-white text-center bg-cover bg-center px-6 transition-all duration-1000 ease-in-out"
+        className="relative min-h-screen flex flex-col justify-center items-center text-white text-center bg-cover bg-center px-4 sm:px-8 md:px-12 transition-all duration-1000 ease-in-out"
         style={{
           backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url(${currentImage})`
         }}
       >
-        <h2 className="text-2xl text-yellow-400 font-semibold tracking-wide uppercase">
-          Building Excellence, Delivering Quality
-        </h2>
-        <h1 className="text-5xl font-bold mt-4 leading-tight drop-shadow-lg">
-          Innovative & Sustainable <br /> Construction Solutions
-        </h1>
-        <p className="text-lg mt-4 max-w-3xl mx-auto text-gray-300 leading-relaxed">
-          We bring your ideas to life with top-notch craftsmanship, modern designs, and a commitment to timely project completion.
-        </p>
-        <div className="mt-8 flex space-x-6 justify-center">
-          <a
-            href="#services"
-            className="bg-yellow-500 text-white px-8 py-3 rounded-lg shadow-lg hover:bg-yellow-600 transition font-semibold text-lg"
-          >
-            Our Services
-          </a>
-          <a
-            href="#contact"
-            className="border-2 border-white text-white px-8 py-3 rounded-lg shadow-lg hover:bg-white hover:text-black transition font-semibold text-lg"
-          >
-            Contact Us
-          </a>
+        <div className="w-full max-w-5xl mx-auto px-4">
+          <h2 className="text-lg sm:text-xl md:text-2xl text-yellow-400 font-semibold tracking-wide uppercase">
+            Building Excellence, Delivering Quality
+          </h2>
+
+          <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold mt-4 leading-tight drop-shadow-lg">
+            Innovative & Sustainable <br className="hidden sm:block" />
+            Construction Solutions
+          </h1>
+
+          <p className="text-base sm:text-lg mt-4 max-w-2xl mx-auto text-gray-300 leading-relaxed">
+            We bring your ideas to life with top-notch craftsmanship, modern
+            designs, and a commitment to timely project completion.
+          </p>
+
+          <div className="mt-8 flex flex-col sm:flex-row gap-4 justify-center items-center">
+            <a
+              href="#services"
+              className="bg-yellow-500 text-white px-6 py-3 rounded-lg shadow-lg hover:bg-yellow-600 transition font-semibold text-base sm:text-lg"
+            >
+              Our Services
+            </a>
+            <a
+              href="#contact"
+              className="border-2 border-white text-white px-6 py-3 rounded-lg shadow-lg hover:bg-white hover:text-black transition font-semibold text-base sm:text-lg"
+            >
+              Contact Us
+            </a>
+          </div>
         </div>
       </div>
     </div>
