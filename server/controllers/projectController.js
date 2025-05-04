@@ -3,7 +3,6 @@ import Project from '../models/Project.js';
 
 export const addProject = async (req, res) => {
   try {
-    console.log(req.body);
     const { title, description, location, completedOn } = req.body;
     const imageUrl = req.file ? `/uploads/${req.file.filename}` : '';
 
@@ -17,7 +16,6 @@ export const addProject = async (req, res) => {
 
     const saved = await newProject.save();
     res.status(201).json(saved);
-    console.log("added");
   } catch (error) {
     res.status(500).json({ error: 'Failed to add project', details: error.message });
   }

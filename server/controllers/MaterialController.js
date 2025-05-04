@@ -3,17 +3,15 @@ import Material from '../models/Material.js';
 // Add a new material
 export const addMaterial = async (req, res) => {
   try {
-    const { name, description, category, price, unit, inStock } = req.body;
+    const { name, description, price, unit} = req.body;
     const imageUrl = req.file ? `/uploads/${req.file.filename}` : '';
 
     const newMaterial = new Material({
       name,
       description,
-      category,
       price,
       unit,
       imageUrl,
-      inStock
     });
 
     const saved = await newMaterial.save();

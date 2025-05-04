@@ -6,6 +6,7 @@ const MaterialsAdmin = () => {
   const [materials, setMaterials] = useState([]);
   const [name, setName] = useState('');
   const [price, setPrice] = useState('');
+  const [description,setDescription] = useState('');
   const [unit, setUnit] = useState('');
   const [image, setImage] = useState(null);
 
@@ -25,11 +26,13 @@ const MaterialsAdmin = () => {
     form.append('price', price);
     form.append('unit', unit);
     form.append('image', image);
+    form.append('description',description);
     await axios.post('/materials', form);
     fetchMaterials();
     setName('');
     setPrice('');
     setUnit('');
+    setDescription('');
     setImage(null);
   };
 
@@ -56,7 +59,17 @@ const MaterialsAdmin = () => {
               required
             />
           </div>
-
+          
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-1">Description</label>
+            <input
+              className="border border-gray-300 p-3 rounded-lg w-full focus:ring-2 focus:ring-blue-400"
+              placeholder="give description"
+              value={description}
+              onChange={(e) => setDescription(e.target.value)}
+              required
+            />
+          </div>
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-1">Price</label>
             <input
@@ -118,6 +131,7 @@ const MaterialsAdmin = () => {
         </div>
 
         <h3 className="text-xl font-bold text-gray-800 mb-1 text-center">{mat.name}</h3>
+        <p className="font-semibold text-gray-800 mb-1 text-center">{mat.description}</p>
         <p className="text-gray-700 font-semibold mb-3 text-center">
           ₹{mat.price} <span className="font-medium text-sm text-gray-500">/ {mat.unit}</span>
         </p>

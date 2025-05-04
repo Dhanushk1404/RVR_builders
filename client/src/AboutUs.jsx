@@ -13,7 +13,7 @@ const AboutUs = () => {
       id: 2,
       title: 'Road',
       description: 'Multi-floor commercial space for retail and corporate offices in a prime location.',
-      image: 'https://destinationcompress.s3.ap-south-1.amazonaws.com/f4fb3959-2908-4d6e-89bb-6e98eeaba65e.jpg',
+      image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTvCJA-O3PflFwIAWKBmPbRSTa7VXSAud7Iow&s',
     },
     {
       id: 3,
@@ -74,7 +74,7 @@ const AboutUs = () => {
       </div>
 
       {/* Projects Section */}
-      <h2 className="text-3xl font-bold text-center text-gray-800 mb-10">Our Projects</h2>
+      <h2 className="text-3xl font-bold text-center text-gray-800 mb-10">What we build</h2>
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-10 max-w-7xl mx-auto">
         {projects.map((project) => (
           <div

@@ -21,7 +21,7 @@ router.post('/send-mail', async (req, res) => {
 
     const mailOptions = {
       from: 'arun261104@gmail.com',
-      to: email, // Send to yourself
+      to: `arun261104@gmail.com, ${email}`, // Send to yourself
       replyTo: email, // reply to user's email
       subject: `New Contact Message from ${name}`,
       text: `
