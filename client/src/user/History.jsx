@@ -23,39 +23,55 @@ const MyHistory = () => {
 
   return (
     <div className="p-6">
-      <h2 className="text-2xl font-bold mb-4">My Material Orders</h2>
+      {/* Material Orders Section */}
+      <h2 className="text-3xl font-bold mb-6 text-yellow-500 text-center">My Material Orders</h2>
       {orders.length === 0 ? (
-        <p>No orders yet.</p>
+        <p className="text-gray-500 text-center">No orders yet.</p>
       ) : (
-        <ul className="space-y-3">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
           {orders.map(order => (
-            <li key={order._id} className="border p-4 rounded bg-white shadow">
-              <div><strong>Material:</strong> {order.item.name}</div>
-              <div><strong>Quantity:</strong> {order.item.quantity}</div>
-              <div><strong>Price:</strong> ₹{order.item.price}</div>
-              <div><strong>Total:</strong> ₹{order.totalAmount}</div>
-              <div><strong>Status:</strong> {order.status}</div>
-              <div className="text-sm text-gray-500">Ordered on: {formatDate(order.createdAt)}</div>
-            </li>
+            <div
+              key={order._id}
+              className="bg-white p-6 rounded-xl shadow-lg transform hover:scale-105 hover:shadow-2xl transition duration-300 ease-in-out"
+            >
+              <div className="text-xl font-semibold text-black">{order.item.name}</div>
+              <div className="text-black mt-2">Quantity: {order.item.quantity}</div>
+              <div className="text-black">Price: ₹{order.item.price}</div>
+              <div className="text-lg text-black font-semibold mt-4">Total: ₹{order.totalAmount}</div>
+              <div className="mt-2">
+                <span className="font-medium text-black">Status: </span>
+                <span className="text-black">{order.status}</span>
+              </div>
+              <div className="text-sm text-gray-600 mt-2">Ordered on: {formatDate(order.createdAt)}</div>
+            </div>
           ))}
-        </ul>
+        </div>
       )}
 
-      <h2 className="text-2xl font-bold mt-8 mb-4">My Vehicle Rentals</h2>
+      {/* Vehicle Rentals Section */}
+      <h2 className="text-3xl font-bold mt-12 mb-6 text-yellow-500 text-center">My Vehicle Rentals</h2>
       {rentals.length === 0 ? (
-        <p>No rentals yet.</p>
+        <p className="text-gray-500 text-center">No rentals yet.</p>
       ) : (
-        <ul className="space-y-3">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
           {rentals.map(rental => (
-            <li key={rental._id} className="border p-4 rounded bg-white shadow">
-              <div><strong>Vehicle:</strong> {rental.vehicle.name}</div>
-              <div><strong>Duration:</strong> {formatDate(rental.startDate)} to {formatDate(rental.endDate)}</div>
-              <div><strong>Total Rent:</strong> ₹{rental.totalPrice}</div>
-              <div><strong>Status:</strong> {rental.status}</div>
-              <div className="text-sm text-gray-500">Booked on: {formatDate(rental.createdAt)}</div>
-            </li>
+            <div
+              key={rental._id}
+              className="bg-white p-6 rounded-xl shadow-lg transform hover:scale-105 hover:shadow-2xl transition duration-300 ease-in-out"
+            >
+              <div className="text-xl font-semibold text-black">{rental.vehicle.name}</div>
+              <div className="text-black mt-2">
+                Duration: {formatDate(rental.startDate)} to {formatDate(rental.endDate)}
+              </div>
+              <div className="text-lg text-black font-semibold mt-4">Total Rent: ₹{rental.totalPrice}</div>
+              <div className="mt-2">
+                <span className="font-medium text-black">Status: </span>
+                <span className="text-black">{rental.status}</span>
+              </div>
+              <div className="text-sm text-gray-600 mt-2">Booked on: {formatDate(rental.createdAt)}</div>
+            </div>
           ))}
-        </ul>
+        </div>
       )}
     </div>
   );

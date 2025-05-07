@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/authContext'; // adjust path
+import { FiLogOut } from "react-icons/fi";
 
 const Navbar = () => {
   const { user, logout } = useAuth();
@@ -8,7 +9,7 @@ const Navbar = () => {
 
   const handleLogout = () => {
     logout();
-    navigate('/login');
+    navigate('/');
   };
 
   return (
@@ -27,12 +28,18 @@ const Navbar = () => {
         {user && (
           <>
             <li><Link to="/history" className="hover:text-yellow-500 transition">View History</Link></li>
-            <li><button onClick={handleLogout} className="text-red-500 hover:text-red-700 transition">Logout</button></li>
+            <li
+              onClick={handleLogout}
+              className="flex items-center gap-2 text-yellow-600 font-semibold cursor-pointer hover:text-yellow-700 transition duration-300 ease-in-out"
+            >
+                  <FiLogOut className="text-xl" />
+               Logout
+            </li>
           </>
         ) }
       </ul>
 
-      <Link to="/quote" className="bg-yellow-500 text-white px-6 py-2 rounded-lg shadow-md hover:bg-yellow-600 transition font-bold">
+      <Link to="/contact" className="bg-yellow-500 text-white px-6 py-2 rounded-lg shadow-md hover:bg-yellow-600 transition font-bold">
         Get a Quote
       </Link>
     </nav>

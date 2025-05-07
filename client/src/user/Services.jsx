@@ -1,9 +1,11 @@
-import React, { useEffect, useState } from 'react';
-import MaterialCard from '../components/MaterialCard';
-import VehicleCard from '../components/VehicleCard';
-import Login from '../forms/Login';
-import Register from '../forms/Register';
-import axios from 'axios';
+import React, { useEffect, useState } from "react";
+import MaterialCard from "../components/MaterialCard";
+import VehicleCard from "../components/VehicleCard";
+import Login from "../forms/Login";
+import Register from "../forms/Register";
+import axios from "axios";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const Services = () => {
   const [materials, setMaterials] = useState([]);
@@ -14,12 +16,12 @@ const Services = () => {
   const [selectedItem, setSelectedItem] = useState(null);
   const [selectedType, setSelectedType] = useState(null);
   const [quantity, setQuantity] = useState(1);
-  const [startDate, setStartDate] = useState('');
-  const [endDate, setEndDate] = useState('');
+  const [startDate, setStartDate] = useState("");
+  const [endDate, setEndDate] = useState("");
 
   const fetchData = async () => {
-    const matRes = await fetch('/api/materials');
-    const vehRes = await fetch('/api/vehicles');
+    const matRes = await fetch("/api/materials");
+    const vehRes = await fetch("/api/vehicles");
     setMaterials(await matRes.json());
     setVehicles(await vehRes.json());
   };
@@ -29,7 +31,7 @@ const Services = () => {
   }, []);
 
   const handleOrderClick = (item, type) => {
-    const token = localStorage.getItem('token');
+    const token = localStorage.getItem("token");
     if (!token) {
       setShowLogin(true);
     } else {
@@ -44,8 +46,8 @@ const Services = () => {
     setSelectedItem(null);
     setSelectedType(null);
     setQuantity(1);
-    setStartDate('');
-    setEndDate('');
+    setStartDate("");
+    setEndDate("");
   };
 
   const toggleModal = () => {
@@ -53,25 +55,24 @@ const Services = () => {
   };
 
   const handleSubmit = async () => {
-    const user = JSON.parse(localStorage.getItem('user'));
+    const user = JSON.parse(localStorage.getItem("user"));
     try {
-      if (selectedType === 'material') {
-        await axios.post('http://localhost:5000/api/orders', {
+      if (selectedType === "material") {
+        await axios.post("http://localhost:5000/api/orders", {
           customer: {
             name: user.name,
             email: user.email,
             phone: user.phone,
             address: user.address,
           },
-          item: 
-            {
-              materialId: selectedItem._id,
-              quantity: parseInt(quantity),
-            },
+          item: {
+            materialId: selectedItem._id,
+            quantity: parseInt(quantity),
+          },
         });
-        alert('Order placed successfully!');
-      } else if (selectedType === 'vehicle') {
-        await axios.post('http://localhost:5000/api/rentals', {
+        toast.success("Order placed successfully!");
+      } else if (selectedType === "vehicle") {
+        await axios.post("http://localhost:5000/api/rentals", {
           customer: {
             name: user.name,
             email: user.email,
@@ -82,27 +83,29 @@ const Services = () => {
           startDate,
           endDate,
         });
-        alert('Vehicle rented successfully!');
+        toast.success("Vehicle rented successfully!");
       }
       closeModal();
     } catch (err) {
       console.error(err);
-      alert('Something went wrong');
+      toast.error("Something went wrong");
     }
   };
 
   return (
     <div className="p-6">
-      <h2 className="text-2xl font-bold mb-4">Materials</h2>
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-        {materials.map(m => (
+      <h2 className=" text-yellow-500 text-2xl font-bold mb-4">Materials</h2>
+      <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+        {materials.map((m) => (
           <MaterialCard key={m._id} material={m} onOrder={handleOrderClick} />
         ))}
       </div>
 
-      <h2 className="text-2xl font-bold my-6">Vehicles for Rent</h2>
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-        {vehicles.map(v => (
+      <h2 className="text-yellow-500 text-2xl font-bold my-6">
+        Vehicles for Rent
+      </h2>
+      <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+        {vehicles.map((v) => (
           <VehicleCard key={v._id} vehicle={v} onOrder={handleOrderClick} />
         ))}
       </div>
@@ -128,7 +131,7 @@ const Services = () => {
             ) : (
               <div>
                 <h2 className="text-xl font-bold mb-4">Enter Details</h2>
-                {selectedType === 'material' ? (
+                {selectedType === "material" ? (
                   <div>
                     <label className="block mb-2">Quantity:</label>
                     <input
@@ -167,6 +170,7 @@ const Services = () => {
           </div>
         </div>
       )}
+     <ToastContainer />
     </div>
   );
 };

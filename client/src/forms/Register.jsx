@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import API from '../api/axios.js';
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const Register = ({ onClose, toggleModal }) => {
   const [form, setForm] = useState({
@@ -14,16 +16,16 @@ const Register = ({ onClose, toggleModal }) => {
     e.preventDefault();
     try {
       const res = await API.post('/auth/register', form);
-      alert(res.data.message);
+      toast.success(res.data.message);
       toggleModal();
     } catch (err) {
-      alert(err.response?.data?.message || 'Registration failed');
+      toast.error(err.response?.data?.message || 'Registration failed');
     }
   };
 
   return (
     <div>
-      <h2 className="text-2xl font-bold mb-4">Register</h2>
+      <h2 className="text-2xl font-bold mb-4 text-yellow-600">Register</h2>
       <form onSubmit={handleRegister}>
         <input
           type="text"
@@ -62,17 +64,18 @@ const Register = ({ onClose, toggleModal }) => {
         />
         <button
           type="submit"
-          className="w-full bg-green-500 text-white py-2 rounded"
+          className="w-full bg-yellow-500 hover:bg-yellow-600 text-white py-2 rounded"
         >
           Register
         </button>
       </form>
       <p className="mt-4 text-center">
         Already have an account?{' '}
-        <button onClick={toggleModal} className="text-blue-500">
+        <button onClick={toggleModal} className="text-yellow-500 hover:underline">
           Login here
         </button>
       </p>
+      <ToastContainer/>
     </div>
   );
 };

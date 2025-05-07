@@ -1,34 +1,39 @@
-import React, { useState } from 'react';
-import API from '../api/axios.js';
-import { useAuth } from '../context/authContext'; // adjust the path if needed
-
+import React, { useState } from "react";
+import API from "../api/axios.js";
+import { useAuth } from "../context/authContext";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const Login = ({ onClose, toggleModal }) => {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const { login } = useAuth(); // context login function
-
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const { login } = useAuth();
   const handleLogin = async (e) => {
     e.preventDefault();
     try {
-      const form ={
-          email ,
-          password
+      const form = { email, password };
+      const res = await API.post("/auth/login", form);
+      localStorage.setItem("token", res.data.token);
+      login(res.data.user);
+      const loginresponse = res.status;
+      console.log(loginresponse);
+      if (loginresponse === 200) {
+        toast.success("Logged in!");
+        setTimeout(() => {
+          onClose();
+        }, 3000);
+      } else {
+        toast.error("Login failed");
       }
-      const res = await API.post('/auth/login', form);
-      localStorage.setItem('token', res.data.token);
-      login(res.data.user); // ✅ This sets localStorage and updates context
-      alert('Login successful');
-      onClose(); // close modal after success
     } catch (err) {
-      alert(err.response?.data?.message || 'Login failed');
+      const errorMessage = err.response?.data?.message || "Login failed";
+      toast.error(errorMessage);
     }
   };
-  
 
   return (
     <div>
-      <h2 className="text-2xl font-bold mb-4">Login</h2>
+      <h2 className="text-2xl font-bold mb-4 text-yellow-600">Login</h2>
       <form onSubmit={handleLogin}>
         <input
           type="email"
@@ -46,17 +51,30 @@ const Login = ({ onClose, toggleModal }) => {
         />
         <button
           type="submit"
-          className="w-full bg-blue-500 text-white py-2 rounded"
+          className="w-full bg-yellow-500 hover:bg-yellow-600 text-white py-2 rounded"
         >
           Login
         </button>
       </form>
       <p className="mt-4 text-center">
-        New user?{' '}
-        <button onClick={toggleModal} className="text-blue-500">
+        New user?{" "}
+        <button
+          onClick={toggleModal}
+          className="text-yellow-500 hover:underline"
+        >
           Register here
         </button>
       </p>
+      <ToastContainer
+        position="top-right"
+        autoClose={2000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+      />
     </div>
   );
 };

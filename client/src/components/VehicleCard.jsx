@@ -1,21 +1,27 @@
 import React from 'react';
 
 const VehicleCard = ({ vehicle, onOrder }) => (
-  <div className="border p-4 rounded shadow-md">
+  <div className="bg-white border border-gray-200 rounded-xl shadow-md overflow-hidden transition-transform hover:scale-105 duration-300 w-full max-w-sm mx-auto">
     <img
       src={`http://localhost:5000/${vehicle.image}`}
       alt={vehicle.name}
-      className="w-full h-48 object-cover rounded"
+      className="w-full h-40 object-cover" // Reduced image height
     />
-    <h3 className="text-xl font-bold">{vehicle.name}</h3>
-    <h5 className="text-l font-semibold">{vehicle.description}</h5>
-    <p>Rent: ₹{vehicle.pricePerDay} per day</p>
-    <button
-      onClick={() => onOrder(vehicle, 'vehicle')}
-      className="mt-2 bg-green-500 text-white px-3 py-1 rounded"
-    >
-      Rent Now
-    </button>
+    <div className="p-3"> {/* Reduced padding */}
+      <h3 className="text-lg font-semibold text-gray-800 mb-1">{vehicle.name}</h3> {/* Reduced font size and margin */}
+      <p className="text-sm text-gray-600 mb-2 line-clamp-3">{vehicle.description}</p> {/* Reduced margin */}
+      <div className="flex items-center justify-between">
+        <span className="text-base font-medium text-gray-700">
+          Rent: ₹{vehicle.pricePerDay} per day
+        </span>
+        <button
+          onClick={() => onOrder(vehicle, 'vehicle')}
+          className="bg-yellow-500 hover:bg-gradient-to-r hover:from-yellow-500 hover:to-yellow-700 text-white text-sm font-semibold px-4 py-2 rounded-md transition duration-300 shadow"
+        >
+          Rent Now
+        </button>
+      </div>
+    </div>
   </div>
 );
 

@@ -52,13 +52,13 @@ const LandingPage = () => {
 
           <div className="mt-8 flex flex-col sm:flex-row gap-4 justify-center items-center">
             <a
-              href="#services"
+              href="/services"
               className="bg-yellow-500 text-white px-6 py-3 rounded-lg shadow-lg hover:bg-yellow-600 transition font-semibold text-base sm:text-lg"
             >
               Our Services
             </a>
             <a
-              href="#contact"
+              href="/contact"
               className="border-2 border-white text-white px-6 py-3 rounded-lg shadow-lg hover:bg-white hover:text-black transition font-semibold text-base sm:text-lg"
             >
               Contact Us
