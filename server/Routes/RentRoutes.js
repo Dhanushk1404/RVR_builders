@@ -12,7 +12,7 @@ import {
 const router = express.Router();
 
 router.get('/', getAllRentals);
-router.get('/customer', getRentalsByCustomer);
+router.get('/history', getRentalsByCustomer);
 router.get('/vehicle/:vehicleId', getRentalsByVehicleId);
 router.get('/:id', getRentalById);
 router.post('/', addRental);

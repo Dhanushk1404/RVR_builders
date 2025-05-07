@@ -6,8 +6,9 @@ import materialRoutes from './Routes/MaterialRoutes.js';
 import adminRoutes from './Routes/AdminRoutes.js';
 import contactRoutes from './Routes/ContactRoutes.js';
 import orderRouter from './Routes/OrderRoutes.js';
-import vehicleRoutes from './routes/VehicleRoutes.js';
-import rentalDetailRoutes from './routes/RentRoutes.js';
+import vehicleRoutes from './Routes/VehicleRoutes.js';
+import rentalDetailRoutes from './Routes/RentRoutes.js';
+import userRoutes from './Routes/UserRoutes.js';
 import './middleware/scheduler.js';  // Just importing will trigger the job
 
 
@@ -29,6 +30,13 @@ app.use('/api/materials', materialRoutes);
 app.use("/api/orders", orderRouter);
 app.use('/api/vehicles', vehicleRoutes);
 app.use('/api/rentals', rentalDetailRoutes);
+app.use('/api/auth', userRoutes);
+
+
+app.use((req, res) => {
+  res.status(404).json({ error: 'Route not found' });
+});
+
 
 app.listen(port, () => {
   console.log(`Server is running on http://localhost:${port}`);

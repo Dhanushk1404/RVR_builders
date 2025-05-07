@@ -7,6 +7,8 @@ const AdminDashboardPage = () => {
   const [showLoginModal, setShowLoginModal] = useState(false);
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState('');
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -16,19 +18,33 @@ const AdminDashboardPage = () => {
 
   const login = async (e) => {
     e.preventDefault();
+    
+    // Basic validation
+    if (!username || !password) {
+      setError('Both username and password are required!');
+      return;
+    }
+
+    setLoading(true);
+    setError('');
+    
     try {
       const res = await axios.post('/admin/login', { username, password });
       localStorage.setItem('adminToken', res.data.token);
       setIsLoggedIn(true);
       setShowLoginModal(false);
+      navigate('/admin');
     } catch (err) {
-      alert('Login failed 😢');
+      setError('Login failed. Please check your credentials.');
+    } finally {
+      setLoading(false);
     }
   };
 
   const logout = () => {
     localStorage.removeItem('adminToken');
     setIsLoggedIn(false);
+    navigate('/admin/login');
   };
 
   return (
@@ -57,6 +73,12 @@ const AdminDashboardPage = () => {
                 className="text-green-700 hover:text-green-900 font-medium transition"
               >
                 Manage Projects
+              </button>
+              <button
+                onClick={() => navigate('/admin/vehicles')}
+                className="text-blue-700 hover:text-blue-900 font-medium transition"
+              >
+                Manage Vehicles
               </button>
               <button
                 onClick={logout}
@@ -93,6 +115,10 @@ const AdminDashboardPage = () => {
           >
             <h2 className="text-2xl font-bold text-center mb-6 text-gray-800">Admin Login</h2>
 
+            {error && (
+              <p className="text-red-500 text-sm mb-4">{error}</p>
+            )}
+
             <div className="mb-4">
               <label className="block text-sm text-gray-600 mb-1">Username</label>
               <input
@@ -117,9 +143,10 @@ const AdminDashboardPage = () => {
 
             <button
               type="submit"
-              className="w-full bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700 transition"
+              className={`w-full bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700 transition ${loading ? 'cursor-not-allowed opacity-50' : ''}`}
+              disabled={loading}
             >
-              Login
+              {loading ? 'Logging in...' : 'Login'}
             </button>
 
             <button

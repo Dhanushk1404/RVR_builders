@@ -32,6 +32,37 @@ export const getProjects = async (req, res) => {
   }
 };
 
+
+// Example of a backend controller to handle updating a project
+export const updateProject = async (req, res) => {
+  try {
+    console.log(req.body);
+    const updatedData = { ...req.body };
+    
+    if (req.file) {
+      updatedData.imageUrl = `/uploads/${req.file.filename}`; // Handle new image upload
+    }
+
+    const updatedProject = await Project.findByIdAndUpdate(
+      req.params.id,
+      updatedData,
+      { new: true } // Return the updated project after the update
+    );
+
+    if (!updatedProject) {
+      return res.status(404).json({ message: 'Project not found' });
+    }
+
+    res.status(200).json(updatedProject);
+  } catch (error) {
+    console.error('Failed to update project:', error);
+    res.status(500).json({ error: 'Failed to update project' });
+  }
+};
+
+
+
+
 // Delete a project by ID (optional)
 export const deleteProject = async (req, res) => {
   try {

@@ -1,7 +1,16 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import { useAuth } from '../context/authContext'; // adjust path
 
 const Navbar = () => {
+  const { user, logout } = useAuth();
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    logout();
+    navigate('/login');
+  };
+
   return (
     <nav className="flex justify-between items-center px-10 py-4 bg-white shadow-md fixed w-full top-0 z-50">
       <div className="flex items-center">
@@ -15,6 +24,12 @@ const Navbar = () => {
         <li><Link to="/services" className="hover:text-yellow-500 transition">Services</Link></li>
         <li><Link to="/projects" className="hover:text-yellow-500 transition">Projects</Link></li>
         <li><Link to="/contact" className="hover:text-yellow-500 transition">Contact</Link></li>
+        {user && (
+          <>
+            <li><Link to="/history" className="hover:text-yellow-500 transition">View History</Link></li>
+            <li><button onClick={handleLogout} className="text-red-500 hover:text-red-700 transition">Logout</button></li>
+          </>
+        ) }
       </ul>
 
       <Link to="/quote" className="bg-yellow-500 text-white px-6 py-2 rounded-lg shadow-md hover:bg-yellow-600 transition font-bold">

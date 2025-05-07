@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import axios from './api/axios';
+import axios from '../api/axios';
 // import { MdEmail, MdPhone, MdLocationOn, MdAccessTime } from 'react-icons/md'; // Optional icons
 
 const Contact = () => {

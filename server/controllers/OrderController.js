@@ -3,33 +3,27 @@ import Material from "../models/Material.js";
 
 export const placeOrder = async (req, res) => {
   try {
-    const { customer, items } = req.body;
+    const { customer, item } = req.body; // item = { materialId, quantity }
+ 
+const material = await Material.findById(item.materialId);
+if (!material) {
+  return res.status(404).json({ error: "Material not found" });
+}
 
-    let totalAmount = 0;
+const itemPrice = material.price;
+const totalAmount = itemPrice * item.quantity;
 
-    // Calculate totalAmount and attach price per item
-    const updatedItems = await Promise.all(
-      items.map(async (item) => {
-        const material = await Material.findById(item.materialId);
-        if (!material) throw new Error(`Material not found: ${item.materialId}`);
-
-        const itemPrice = material.price * item.quantity;
-        totalAmount += itemPrice;
-
-        return {
-          materialId: item.materialId,
-          quantity: item.quantity,
-          price: itemPrice
-        };
-      })
-    );
-
-    const newOrder = new Order({
-      customer,
-      items: updatedItems,
-      totalAmount,
-      status: "Pending"
-    });
+  const newOrder = new Order({
+  customer,
+  item: {
+    materialId: item.materialId,
+    quantity: item.quantity,
+    name: material.name,
+    price: itemPrice
+  },
+  totalAmount,
+  status: "Pending"
+});
 
     await newOrder.save();
     res.status(201).json({ message: "Order placed successfully", order: newOrder });
@@ -43,7 +37,7 @@ export const placeOrder = async (req, res) => {
 // Get all orders
 export const getAllOrders = async (req, res) => {
   try {
-    const orders = await Order.find().populate("items.materialId");
+    const orders = await Order.find().populate("item.materialId");
     res.json(orders);
   } catch (err) {
     res.status(500).json({ error: "Failed to fetch orders" });
@@ -70,7 +64,7 @@ export const updateOrderStatus = async (req, res) => {
         return res.status(404).json({ error: "Order not found" });
       }
       
-      updatedOrder = await updatedOrder.populate("items.materialId");
+      updatedOrder = await updatedOrder.populate("item.materialId");
       
       res.json({ message: "Status updated", order: updatedOrder });
       
@@ -81,8 +75,8 @@ export const updateOrderStatus = async (req, res) => {
 
   
   export const getOrderHistory = async (req, res) => {
-    const { email, phone } = req.query;
-  
+    const { email, phone } = req.query; 
+    console.log(email); 
     if (!email && !phone) {
       return res.status(400).json({ error: "Email or phone is required" });
     }
@@ -93,8 +87,7 @@ export const updateOrderStatus = async (req, res) => {
           { "customer.email": email },
           { "customer.phone": phone }
         ]
-      }).populate("items.materialId");
-  
+      }).populate("item.materialId");
       res.json(orders);
     } catch (err) {
       res.status(500).json({ error: "Failed to fetch order history" });

@@ -2,12 +2,13 @@ import schedule from 'node-schedule';
 import RentalDetail from '../models/Rent.js';
 import Vehicle from '../models/Vehicles.js';
 
-// Schedule the job to run daily at midnight
-schedule.scheduleJob('0 0 * * *', async () => {
+async function checkAndCompleteRentals() {
   try {
-    const now = new Date();
+    const currentDate = new Date();
+    currentDate.setUTCHours(0, 0, 0, 0); // Set to 00:00:00 UTC
+
     const rentalsToComplete = await RentalDetail.find({
-      rentalEndDate: { $lt: now },
+      endDate: { $lt: currentDate },
       status: 'Booked'
     });
 
@@ -15,14 +16,18 @@ schedule.scheduleJob('0 0 * * *', async () => {
       rental.status = 'Completed';
       await rental.save();
 
-      // Increment the vehicle's available stock
       await Vehicle.findByIdAndUpdate(rental.vehicle, {
         $inc: { availableStock: 1 }
       });
+
     }
 
-    console.log(`Completed ${rentalsToComplete.length} rentals.`);
   } catch (error) {
-    console.error('Error completing rentals:', error);
+    console.error('❌ Error completing rentals:', error);
   }
-});
+}
+
+
+checkAndCompleteRentals();
+
+schedule.scheduleJob('0 0 * * *', checkAndCompleteRentals);

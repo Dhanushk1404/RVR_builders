@@ -121,13 +121,14 @@ export const deleteRental = async (req, res) => {
 // GET /api/rentals/customer?email=abc@example.com OR /?phone=1234567890
 export const getRentalsByCustomer = async (req, res) => {
     try {
-      const { email, phone } = req.body;
+      const { email, phone } = req.query;
       const filter = {};
   
       if (email) filter["customer.email"] = email;
       if (phone) filter["customer.phone"] = phone;
   
       const rentals = await RentalDetail.find(filter).populate("vehicle");
+      console.log(rentals);
       res.json(rentals);
     } catch (err) {
       res.status(500).json({ error: "Failed to fetch rental history for customer" });

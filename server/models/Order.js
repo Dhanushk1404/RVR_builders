@@ -8,16 +8,17 @@ const OrderSchema = new mongoose.Schema(
       address: String,
       email: String
     },
-    items: [
+    item:
       {
         materialId: {
           type: mongoose.Schema.Types.ObjectId,
           ref: "Material"
         },
+        name:String,
         quantity: Number,
         price: Number
       }
-    ],
+    ,
     totalAmount: Number,
     status: {
       type: String,
