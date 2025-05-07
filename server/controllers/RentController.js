@@ -139,7 +139,7 @@ export const getRentalsByCustomer = async (req, res) => {
   // GET /api/rentals/vehicle/:vehicleId
 export const getRentalsByVehicleId = async (req, res) => {
     try {
-      const rentals = await RentalDetail.find({ vehicleId: req.params.vehicle }).populate("vehicle");
+      const rentals = await RentalDetail.find({ vehicle: req.params.vehicleId }).populate("vehicle");
       res.json(rentals);
     } catch (err) {
       res.status(500).json({ error: "Failed to fetch rental history for vehicle" });

@@ -11,6 +11,11 @@ export default defineConfig({
         changeOrigin: true,
         secure: false
       }
-    }
+    },
+    resolve: {
+      alias: {
+        '@': '/src', // This ensures that '@' resolves to the /src directory
+      },
+    },
   }
 });
