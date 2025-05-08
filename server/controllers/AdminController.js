@@ -159,46 +159,67 @@ export const GenerateReportData = async (req,res)=>{
     const totalRentals = rentals.length;
 
     const totalRevenue = orders.reduce((sum, order) => sum + order.totalAmount, 0)
-      + rentals.reduce((sum, rental) => sum + rental.totalAmount, 0);
+      + rentals.reduce((sum, rental) => sum + rental.totalPrice, 0);
 
     // Highest Sold Material
-    const materialsSold = await Material.aggregate([
-      { $unwind: '$orders' },
-      { $match: { 'orders.createdAt': { $gte: startDate, $lte: endDate } } },
-      { $group: { _id: '$materialName', totalSold: { $sum: '$orders.quantity' } } },
+    const materialsSold = await Order.aggregate([
+      { $match: { createdAt: { $gte: startDate, $lte: endDate } } },
+      {
+        $group: {
+          _id: '$item.name',
+          totalSold: { $sum: '$item.quantity' }
+        }
+      },
       { $sort: { totalSold: -1 } },
       { $limit: 1 }
     ]);
+    
+    
 
-    // Highest Rented Vehicle
-    const vehiclesRented = await Vehicle.aggregate([
-      { $unwind: '$rentals' },
-      { $match: { 'rentals.createdAt': { $gte: startDate, $lte: endDate } } },
-      { $group: { _id: '$vehicleName', totalRented: { $sum: '$rentals.quantity' } } },
+    const vehiclesRented = await RentalDetail.aggregate([
+      { $match: { createdAt: { $gte: startDate, $lte: endDate } } },
+      {
+        $lookup: {
+          from: 'vehicles', // this must match the MongoDB collection name
+          localField: 'vehicle',
+          foreignField: '_id',
+          as: 'vehicleInfo'
+        }
+      },
+      { $unwind: '$vehicleInfo' },
+      {
+        $group: {
+          _id: '$vehicleInfo.name',
+          totalRented: { $sum: 1 } // one per rental
+        }
+      },
       { $sort: { totalRented: -1 } },
       { $limit: 1 }
     ]);
+    
+    
 
     // Order Status Distribution (Shipped, Delivered)
-    const shippedDeliveredStatus = await Order.aggregate([
+    const statusAggregation = await Order.aggregate([
       { $match: { createdAt: { $gte: startDate, $lte: endDate } } },
-      { $group: { _id: '$status', count: { $sum: 1 } } },
-      { $match: { _id: { $in: ['Shipped', 'Delivered'] } } }
+      { $group: { _id: '$status', count: { $sum: 1 } } }
     ]);
+    
 
     // Pie chart data for order status distribution
-    const statusData = shippedDeliveredStatus.map(status => ({
+    const statusData = statusAggregation.map(status => ({
       status: status._id,
       value: status.count
     }));
+    
 
     // Recent Orders and Rentals for the month
     const recentOrders = await Order.find({ createdAt: { $gte: startDate, $lte: endDate } })
-      .sort({ createdAt: -1 })
-      .limit(5);
+      .populate('item')
+      .sort({ createdAt: -1 });
     const recentRentals = await RentalDetail.find({ createdAt: { $gte: startDate, $lte: endDate } })
-      .sort({ createdAt: -1 })
-      .limit(5);
+      .populate('vehicle')
+      .sort({ createdAt: -1 });
     const result= {
       totalOrders,
       totalRentals,

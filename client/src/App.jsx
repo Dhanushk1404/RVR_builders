@@ -17,7 +17,8 @@ import VehiclesAdmin from './Pages/VehicleAdmin';
 import OrdersPage from './Pages/OrdersAdmin';
 import RentalsPage from './Pages/RentalAdmin';
 import DashboardPage from './Pages/Dashboard';
-import ReportPage from './utils/generateReport';
+import ReportPage from './Pages/generateReport';
+import Layout from './Pages/AdminLayout';
 
 function App() {
   return (
@@ -33,13 +34,15 @@ function App() {
           <Route path="/contact" element={<Contact/>} />
           <Route path="/admin" element={<AdminLogin />} />
           <Route path="/history" element={<MyHistory/>} />
+          <Route element={<Layout />}>
           <Route path="/admin/vehicles" element={<ProtectedRoute><VehiclesAdmin /></ProtectedRoute>} />
           <Route path="/admin/orders" element={<ProtectedRoute><OrdersPage /></ProtectedRoute>} />
-          <Route path="/admin/rentals" element={<ProtectedRoute><RentalsPage /></ProtectedRoute>} />
+          <Route path="/admin/rents" element={<ProtectedRoute><RentalsPage /></ProtectedRoute>} />
           <Route path="/admin/dashboard" element={<ProtectedRoute><DashboardPage /></ProtectedRoute>} />
-          <Route path="/admin/report" element={<ProtectedRoute><ReportPage /></ProtectedRoute>} />
+          <Route path="/admin/generate" element={<ProtectedRoute><ReportPage /></ProtectedRoute>} />
           <Route path="/admin/materials" element={<ProtectedRoute><MaterialsAdmin /></ProtectedRoute>} />
           <Route path="/admin/projects" element={<ProtectedRoute><ProjectsAdmin /></ProtectedRoute>} />
+          </Route>
         </Routes>
       </div>
     </Router>

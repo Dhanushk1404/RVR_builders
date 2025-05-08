@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from '../api/axios';
+import Navbar from './Navbar';
 
 const AdminDashboardPage = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -13,27 +14,22 @@ const AdminDashboardPage = () => {
 
   useEffect(() => {
     const token = localStorage.getItem('adminToken');
-    setIsLoggedIn(!!token);
+    if (token) {
+      setIsLoggedIn(true);
+    }
   }, []);
 
   const login = async (e) => {
     e.preventDefault();
-    
-    // Basic validation
-    if (!username || !password) {
-      setError('Both username and password are required!');
-      return;
-    }
-
     setLoading(true);
     setError('');
-    
+
     try {
       const res = await axios.post('/admin/login', { username, password });
       localStorage.setItem('adminToken', res.data.token);
       setIsLoggedIn(true);
       setShowLoginModal(false);
-      navigate('/admin');
+      navigate('/admin/dashboard');
     } catch (err) {
       setError('Login failed. Please check your credentials.');
     } finally {
@@ -44,69 +40,31 @@ const AdminDashboardPage = () => {
   const logout = () => {
     localStorage.removeItem('adminToken');
     setIsLoggedIn(false);
-    navigate('/admin/login');
+    navigate('/admin');
   };
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 to-purple-100">
-      {/* NAVBAR */}
-      <nav className="flex flex-wrap justify-between items-center px-6 md:px-12 py-4 bg-white shadow-md fixed top-0 left-0 right-0 z-50">
-        <h1 className="text-2xl font-bold text-gray-800">Admin Panel</h1>
-        <div className="flex flex-wrap gap-4 mt-4 md:mt-0">
-          {!isLoggedIn ? (
-            <button
-              onClick={() => setShowLoginModal(true)}
-              className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 transition"
-            >
-              Login
-            </button>
-          ) : (
-            <>
-              <button
-                onClick={() => navigate('/admin/materials')}
-                className="text-blue-700 hover:text-blue-900 font-medium transition"
-              >
-                Manage Materials
-              </button>
-              <button
-                onClick={() => navigate('/admin/projects')}
-                className="text-green-700 hover:text-green-900 font-medium transition"
-              >
-                Manage Projects
-              </button>
-              <button
-                onClick={() => navigate('/admin/vehicles')}
-                className="text-blue-700 hover:text-blue-900 font-medium transition"
-              >
-                Manage Vehicles
-              </button>
-              <button
-                onClick={logout}
-                className="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600 transition"
-              >
-                Logout
-              </button>
-            </>
-          )}
-        </div>
-      </nav>
+      <Navbar logout={logout} setShowLoginModal={setShowLoginModal} />
 
-      {/* MAIN SECTION */}
       <div className="pt-40 px-6 flex flex-col items-center text-center">
-        <img
-          src="https://cdn-icons-png.flaticon.com/512/3135/3135768.png"
-          alt="Admin Illustration"
-          className="w-52 h-52 md:w-72 md:h-72 opacity-90 mb-6"
-        />
-        <h2 className="text-2xl font-semibold text-gray-800 mb-2">Welcome, Admin!</h2>
-        <p className="text-gray-600 max-w-2xl px-4 sm:px-0">
-          {isLoggedIn
-            ? 'You have full control over inventory, projects, and teams.'
-            : 'Please login to access project and material management tools.'}
-        </p>
+        {!isLoggedIn ? (
+          <>
+            <img
+              src="https://cdn-icons-png.flaticon.com/512/3135/3135768.png"
+              alt="Admin Illustration"
+              className="w-52 h-52 md:w-72 md:h-72 opacity-90 mb-6"
+            />
+            <h2 className="text-2xl font-semibold text-gray-800 mb-2">Welcome, Admin!</h2>
+            <p className="text-gray-600 max-w-2xl px-4 sm:px-0">
+              Please login to access project and material management tools.
+            </p>
+          </>
+        ) : (
+          <h2 className="text-2xl font-semibold text-gray-800 mb-2">Dashboard</h2>
+        )}
       </div>
 
-      {/* LOGIN MODAL */}
       {showLoginModal && (
         <div className="fixed inset-0 bg-black bg-opacity-40 flex justify-center items-center z-50 backdrop-blur-sm">
           <form
