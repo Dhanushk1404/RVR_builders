@@ -10,7 +10,12 @@ const Navbar = ({ logout, setShowLoginModal }) => {
     const token = localStorage.getItem('adminToken');
     setIsLoggedIn(!!token);
   }, [location.pathname]);
-
+  []
+  async function logout(){
+    localStorage.removeItem('adminToken');
+    setIsLoggedIn(false);
+    navigate('/admin');
+  }
   return (
     <nav className="flex justify-between items-center px-6 py-4 bg-white shadow-md fixed top-0 left-0 right-0 z-50">
       <h1 className="text-xl font-bold">Admin Panel</h1>

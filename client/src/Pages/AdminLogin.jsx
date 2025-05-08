@@ -1,54 +1,66 @@
-import { useState, useEffect } from 'react';
+// src/components/AdminDashboardPage.jsx
+import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useAuth } from '../context/authContext';
 import axios from '../api/axios';
 import Navbar from './Navbar';
 
 const AdminDashboardPage = () => {
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const {
+    admin,
+    loginAdmin,
+    logoutAdmin,
+  } = useAuth();
+
   const [showLoginModal, setShowLoginModal] = useState(false);
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
+
   const navigate = useNavigate();
 
-  useEffect(() => {
-    const token = localStorage.getItem('adminToken');
-    if (token) {
-      setIsLoggedIn(true);
-    }
-  }, []);
-
-  const login = async (e) => {
+  const handleLogin = async (e) => {
     e.preventDefault();
-    setLoading(true);
     setError('');
+    setLoading(true);
+
+    if (!username || !password) {
+      setError('Please enter both username and password.');
+      setLoading(false);
+      return;
+    }
 
     try {
       const res = await axios.post('/admin/login', { username, password });
-      localStorage.setItem('adminToken', res.data.token);
-      setIsLoggedIn(true);
-      setShowLoginModal(false);
-      navigate('/admin/dashboard');
+      
+        loginAdmin({token: res.data.token });
+        setShowLoginModal(false);
+        navigate('/admin/dashboard');
+      
     } catch (err) {
-      setError('Login failed. Please check your credentials.');
+      console.error('Login error:', err);
+      if (err.response?.status === 401) {
+        setError('Invalid username or password.');
+      } else {
+        setError('Server error. Please try again later.');
+      }
     } finally {
       setLoading(false);
     }
   };
 
-  const logout = () => {
-    localStorage.removeItem('adminToken');
-    setIsLoggedIn(false);
+  const handleLogout = () => {
+    logoutAdmin();
     navigate('/admin');
   };
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 to-purple-100">
-      <Navbar logout={logout} setShowLoginModal={setShowLoginModal} />
+      <Navbar logout={handleLogout} setShowLoginModal={setShowLoginModal} />
 
       <div className="pt-40 px-6 flex flex-col items-center text-center">
-        {!isLoggedIn ? (
+        {!admin ? (
           <>
             <img
               src="https://cdn-icons-png.flaticon.com/512/3135/3135768.png"
@@ -68,7 +80,7 @@ const AdminDashboardPage = () => {
       {showLoginModal && (
         <div className="fixed inset-0 bg-black bg-opacity-40 flex justify-center items-center z-50 backdrop-blur-sm">
           <form
-            onSubmit={login}
+            onSubmit={handleLogin}
             className="bg-white p-6 sm:p-8 rounded-xl shadow-2xl w-full max-w-sm mx-4 relative"
           >
             <h2 className="text-2xl font-bold text-center mb-6 text-gray-800">Admin Login</h2>
