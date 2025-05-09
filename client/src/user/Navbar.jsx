@@ -4,11 +4,11 @@ import { useAuth } from '../context/authContext'; // adjust path
 import { FiLogOut } from "react-icons/fi";
 
 const Navbar = () => {
-  const { user, logout } = useAuth();
+  const { user, logoutUser } = useAuth();
   const navigate = useNavigate();
 
   const handleLogout = () => {
-    logout();
+    logoutUser();
     navigate('/');
   };
 
