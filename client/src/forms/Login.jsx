@@ -7,14 +7,14 @@ import "react-toastify/dist/ReactToastify.css";
 const Login = ({ onClose, toggleModal }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const { login } = useAuth();
+  const { loginUser } = useAuth();
   const handleLogin = async (e) => {
     e.preventDefault();
     try {
       const form = { email, password };
       const res = await API.post("/auth/login", form);
       localStorage.setItem("token", res.data.token);
-      login(res.data.user);
+      loginUser(res.data.user);
       const loginresponse = res.status;
       console.log(loginresponse);
       if (loginresponse === 200) {

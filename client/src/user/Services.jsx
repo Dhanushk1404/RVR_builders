@@ -20,8 +20,8 @@ const Services = () => {
   const [endDate, setEndDate] = useState("");
 
   const fetchData = async () => {
-    const matRes = await fetch("/api/materials");
-    const vehRes = await fetch("/api/vehicles");
+    const matRes = await fetch("https://rvr-builders.onrender.com/api/materials");
+    const vehRes = await fetch("https://rvr-builders.onrender.com/api/vehicles");
     setMaterials(await matRes.json());
     setVehicles(await vehRes.json());
   };
@@ -58,7 +58,7 @@ const Services = () => {
     const user = JSON.parse(localStorage.getItem("user"));
     try {
       if (selectedType === "material") {
-        await axios.post("http://localhost:5000/api/orders", {
+        await axios.post("https://rvr-builders.onrender.com/api/orders", {
           customer: {
             name: user.name,
             email: user.email,
@@ -72,7 +72,7 @@ const Services = () => {
         });
         toast.success("Order placed successfully!");
       } else if (selectedType === "vehicle") {
-        await axios.post("http://localhost:5000/api/rentals", {
+        await axios.post("https://rvr-builders.onrender.com/api/rentals", {
           customer: {
             name: user.name,
             email: user.email,

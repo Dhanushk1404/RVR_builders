@@ -11,7 +11,7 @@ const Register = () => {
 
   const handleSubmit = async e => {
     e.preventDefault();
-    const res = await fetch('http://localhost:5000/api/users/register', {
+    const res = await fetch('https://rvr-builders.onrender.com/api/users/register', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(form),

@@ -154,7 +154,7 @@ const MaterialsAdmin = () => {
             >
               <div className="w-full h-48 overflow-hidden rounded-lg mb-4">
                 <img
-                  src={`http://localhost:5000${mat.imageUrl}`}
+                  src={`https://rvr-builders.onrender.com${mat.imageUrl}`}
                   alt={mat.name}
                   className="w-full h-full object-cover rounded"
                 />

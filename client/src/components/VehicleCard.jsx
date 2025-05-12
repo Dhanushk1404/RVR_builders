@@ -3,7 +3,7 @@ import React from 'react';
 const VehicleCard = ({ vehicle, onOrder }) => (
   <div className="bg-white border border-gray-200 rounded-xl shadow-md overflow-hidden transition-transform hover:scale-105 duration-300 w-full max-w-sm mx-auto">
     <img
-      src={`http://localhost:5000/${vehicle.image}`}
+      src={`https://rvr-builders.onrender.com/${vehicle.image}`}
       alt={vehicle.name}
       className="w-full h-40 object-cover" // Reduced image height
     />

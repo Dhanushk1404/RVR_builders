@@ -3,7 +3,7 @@ import React from 'react';
 const MaterialCard = ({ material, onOrder }) => (
   <div className="bg-white border border-gray-200 rounded-xl shadow-md overflow-hidden transition-transform hover:scale-105 duration-300 w-full max-w-sm mx-auto">
     <img
-      src={`http://localhost:5000${material.imageUrl}`}
+      src={`https://rvr-builders.onrender.com${material.imageUrl}`}
       alt={material.name}
       className="w-full h-48 object-cover"
     />

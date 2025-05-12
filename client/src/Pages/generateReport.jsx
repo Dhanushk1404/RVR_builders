@@ -23,7 +23,7 @@ const ReportPage = () => {
     setLoading(true);
     try {
       const response = await axios.get(
-        `http://localhost:5000/api/admin/report/${month}`
+        `https://rvr-builders.onrender.com/api/admin/report/${month}`
       );
       setReportData(response.data);
       return response.data;

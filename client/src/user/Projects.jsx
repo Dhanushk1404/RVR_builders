@@ -31,7 +31,7 @@ const Projects = () => {
           >
             <div className="aspect-video overflow-hidden">
               <img
-                src={`http://localhost:5000${proj.imageUrl}`}
+                src={`https://rvr-builders.onrender.com${proj.imageUrl}`}
                 alt={proj.title}
                 className="w-full h-full object-cover hover:scale-105 transition-transform duration-300"
               />
