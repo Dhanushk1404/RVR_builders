@@ -3,9 +3,9 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Navbar from './user/Navbar';
 import Home from './user/landingpage';
 import AboutUs from './user/AboutUs';
-import AdminLogin from './pages/AdminLogin'
-import MaterialsAdmin from './pages/MaterialsAdmin';
-import ProjectsAdmin from './pages/ProjectAdmin';
+import AdminLogin from './Pages/AdminLogin'
+import MaterialsAdmin from './Pages/MaterialsAdmin';
+import ProjectsAdmin from './Pages/ProjectAdmin';
 import ProtectedRoute from './components/ProtectedRoute';
 import Project from './user/Projects';
 import Services from './user/Services';
