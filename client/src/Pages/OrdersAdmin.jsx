@@ -53,7 +53,7 @@ const OrdersPage = () => {
                 <td className="py-4 px-6 text-sm text-gray-800">{order._id}</td>
                 <td className="py-4 px-6 text-sm text-gray-800">{order.item.name}</td>
                 <td className="py-4 px-6 text-sm text-gray-800">{order.item.quantity}</td>
-                <td className="py-4 px-6 text-sm text-gray-800">${order.totalAmount}</td>
+                <td className="py-4 px-6 text-sm text-gray-800"><span className='pr-0.5'>₹</span>{order.totalAmount}</td>
                 <td className="py-4 px-6 text-sm text-gray-800">{order.status}</td>
                 <td className="py-4 px-6 text-sm text-gray-800">
                   {/* Dropdown to change the order status */}
