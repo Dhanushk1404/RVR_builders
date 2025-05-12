@@ -180,7 +180,7 @@ const ProjectsAdmin = () => {
             >
               <div className="w-full h-48 overflow-hidden rounded-lg mb-4">
                 <img
-                  src={`http://localhost:5000${proj.imageUrl}`}
+                  src={`https://rvr-builders.onrender.com${proj.imageUrl}`}
                   alt={proj.title}
                   className="w-full h-full object-cover rounded"
                 />

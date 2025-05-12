@@ -139,7 +139,7 @@ const VehiclesAdmin = () => {
             >
               <div className="w-full h-48 overflow-hidden rounded-lg mb-4">
                 <img
-                  src={`http://localhost:5000/${vehicle.image}`}
+                  src={`https://rvr-builders.onrender.com/${vehicle.image}`}
                   alt={vehicle.name}
                   className="w-full h-full object-cover rounded"
                 />

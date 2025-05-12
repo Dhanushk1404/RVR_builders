@@ -11,7 +11,7 @@ export const AuthProvider = ({ children }) => {
 
   const [admin, setAdmin] = useState(() => {
     const storedAdmin = localStorage.getItem('adminToken');
-    return storedAdmin ? JSON.parse(storedAdmin) : null;
+    return storedAdmin ? storedAdmin : null;
   });
 
   const loginUser = (userData) => {

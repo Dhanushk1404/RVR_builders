@@ -37,7 +37,7 @@ const totalAmount = itemPrice * item.quantity;
 // Get all orders
 export const getAllOrders = async (req, res) => {
   try {
-    const orders = await Order.find().populate("item.materialId");
+    const orders = await Order.find().sort({ createdAt: -1 }).populate("item.materialId");
     res.json(orders);
   } catch (err) {
     res.status(500).json({ error: "Failed to fetch orders" });

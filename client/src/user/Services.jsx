@@ -58,7 +58,7 @@ const Services = () => {
     const user = JSON.parse(localStorage.getItem("user"));
     try {
       if (selectedType === "material") {
-        await axios.post("http://localhost:5000/api/orders", {
+        await axios.post("https://rvr-builders.onrender.com/api/orders", {
           customer: {
             name: user.name,
             email: user.email,
@@ -72,7 +72,7 @@ const Services = () => {
         });
         toast.success("Order placed successfully!");
       } else if (selectedType === "vehicle") {
-        await axios.post("http://localhost:5000/api/rentals", {
+        await axios.post("https://rvr-builders.onrender.com/api/rentals", {
           customer: {
             name: user.name,
             email: user.email,
