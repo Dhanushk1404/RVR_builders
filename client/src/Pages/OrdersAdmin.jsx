@@ -22,7 +22,7 @@ const OrdersPage = () => {
   // Function to handle order status change
   const handleStatusChange = async (orderId, newStatus) => {
     try {
-      await axios.put(`/api/orders/${orderId}/status`, { status: newStatus }); // Update order status in backend
+      await axios.put(`/orders/${orderId}/status`, { status: newStatus }); // Update order status in backend
       setOrders(orders.map(order => order._id === orderId ? { ...order, status: newStatus } : order)); // Update status in the UI
     } catch (error) {
       console.error("Error updating order status:", error);
