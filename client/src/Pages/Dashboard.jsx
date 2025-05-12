@@ -21,7 +21,7 @@ const DashboardPage = () => {
   useEffect(() => {
     const fetchDashboardData = async () => {
       try {
-        const res = await axios.get('/api/admin/dashboard');
+        const res = await axios.get('/admin/dashboard');
         setMonthlyData(res.data.monthlyRevenue);
         setStatusData(res.data.statusDistribution);
         setRecentTransactions(res.data.recentTransactions);

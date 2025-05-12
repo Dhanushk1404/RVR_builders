@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import axios from 'axios'; // To make HTTP requests
+import axios from '../api/axios';
 
 const OrdersPage = () => {
   // State to store the orders data
@@ -9,7 +9,7 @@ const OrdersPage = () => {
   useEffect(() => {
     const fetchOrders = async () => {
       try {
-        const response = await axios.get('/api/orders');  // Fetch orders from your API
+        const response = await axios.get('/orders');  // Fetch orders from your API
         setOrders(response.data); // Store fetched orders in the state
       } catch (error) {
         console.error("Error fetching orders:", error);

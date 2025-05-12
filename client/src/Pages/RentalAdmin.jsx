@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import axios from 'axios';
+import axios from '../api/axios';
 
 const RentalsPage = () => {
   const [rentals, setRentals] = useState([]);
@@ -11,8 +11,8 @@ const RentalsPage = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const rentalsRes = await axios.get('/api/rentals');
-        const vehiclesRes = await axios.get('/api/vehicles');
+        const rentalsRes = await axios.get('/rentals');
+        const vehiclesRes = await axios.get('/vehicles');
         setRentals(rentalsRes.data);
         setVehicles(vehiclesRes.data);
       } catch (error) {
