@@ -22,7 +22,6 @@ import Layout from './Pages/AdminLayout';
 
 function App() {
   return (
-    <BrowserRouter>
     <Router>
       {window.location.pathname.startsWith('/admin') ? null : <Navbar />}
       <div className="pt-20">
@@ -47,7 +46,6 @@ function App() {
         </Routes>
       </div>
     </Router>
-    </BrowserRouter>
   );
 }
 
