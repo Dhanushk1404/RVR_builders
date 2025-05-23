@@ -4,28 +4,37 @@ import Material from "../models/Material.js";
 export const placeOrder = async (req, res) => {
   try {
     const { customer, item } = req.body; // item = { materialId, quantity }
- 
-const material = await Material.findById(item.materialId);
-if (!material) {
-  return res.status(404).json({ error: "Material not found" });
-}
 
-const itemPrice = material.price;
-const totalAmount = itemPrice * item.quantity;
+    const material = await Material.findById(item.materialId);
+    if (!material) {
+      return res.status(404).json({ error: "Material not found" });
+    }
 
-  const newOrder = new Order({
-  customer,
-  item: {
-    materialId: item.materialId,
-    quantity: item.quantity,
-    name: material.name,
-    price: itemPrice
-  },
-  totalAmount,
-  status: "Pending"
-});
+    if (item.quantity > material.Stock) {
+      return res.status(400).json({ error: `Only ${material.Stock} units available in stock` });
+    }
+
+    const itemPrice = material.price;
+    const totalAmount = itemPrice * item.quantity;
+
+    const newOrder = new Order({
+      customer,
+      item: {
+        materialId: item.materialId,
+        quantity: item.quantity,
+        name: material.name,
+        price: itemPrice
+      },
+      totalAmount,
+      status: "Pending"
+    });
+
+    // Update stock after placing order
+    material.Stock -= item.quantity;
+    await material.save();
 
     await newOrder.save();
+
     res.status(201).json({ message: "Order placed successfully", order: newOrder });
 
   } catch (err) {

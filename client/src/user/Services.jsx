@@ -87,9 +87,15 @@ const Services = () => {
       }
       closeModal();
     } catch (err) {
-      console.error(err);
-      toast.error("Something went wrong");
-    }
+  console.error(err);
+  // Check if backend returned a structured error message
+  if (err.response && err.response.data && err.response.data.error) {
+    toast.error(err.response.data.error);  // Show backend's error message
+  } else {
+    toast.error("An unexpected error occurred."); // Fallback message
+  }
+}
+
   };
 
   return (

@@ -6,7 +6,7 @@ const materialSchema = new mongoose.Schema({
   price: { type: Number, required: true },
   unit: { type: String, required: true }, // e.g., per ton, per bag
   imageUrl: { type: String },
-  inStock: { type: Boolean, default: true },
+  Stock: { type: Number, default: 10 },
   createdAt: { type: Date, default: Date.now }
 });
 

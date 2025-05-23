@@ -8,6 +8,7 @@ const MaterialsAdmin = () => {
   const [price, setPrice] = useState('');
   const [description, setDescription] = useState('');
   const [unit, setUnit] = useState('');
+  const [stock, setStock] = useState('');
   const [image, setImage] = useState(null);
   const [editingMaterialId, setEditingMaterialId] = useState(null);
 
@@ -27,6 +28,8 @@ const MaterialsAdmin = () => {
     form.append('price', price);
     form.append('unit', unit);
     form.append('image', image);
+    form.append('Stock', stock);
+
     form.append('description', description);
     await axios.post('/materials', form);
     fetchMaterials();
@@ -44,6 +47,7 @@ const MaterialsAdmin = () => {
     form.append('name', name);
     form.append('price', price);
     form.append('unit', unit);
+    form.append('Stock', stock);
     form.append('description', description);
     if (image) {
       form.append('image', image);
@@ -60,6 +64,7 @@ const MaterialsAdmin = () => {
     setPrice(material.price);
     setDescription(material.description);
     setUnit(material.unit);
+    setStock(material.Stock);
     setImage(null);
   };
 
@@ -68,6 +73,7 @@ const MaterialsAdmin = () => {
     setPrice('');
     setUnit('');
     setDescription('');
+    setStock('');
     setImage(null);
   };
 
@@ -123,6 +129,18 @@ const MaterialsAdmin = () => {
               required
             />
           </div>
+            <div>
+  <label className="block text-sm font-medium text-gray-700 mb-1">Stock Quantity</label>
+  <input
+    className="border border-gray-300 p-3 rounded-lg w-full focus:ring-2 focus:ring-blue-400"
+    type="number"
+    placeholder="e.g., 100"
+    value={stock}
+    onChange={(e) => setStock(e.target.value)}
+    required
+  />
+</div>
+
 
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-1">Material Image</label>
