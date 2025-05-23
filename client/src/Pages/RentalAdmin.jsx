@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import axios from 'axios';
+import axios from '../api/axios';
 
 const RentalsPage = () => {
   const [rentals, setRentals] = useState([]);
@@ -11,8 +11,8 @@ const RentalsPage = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const rentalsRes = await axios.get('/api/rentals');
-        const vehiclesRes = await axios.get('/api/vehicles');
+        const rentalsRes = await axios.get('/rentals');
+        const vehiclesRes = await axios.get('/vehicles');
         setRentals(rentalsRes.data);
         setVehicles(vehiclesRes.data);
       } catch (error) {
@@ -25,7 +25,7 @@ const RentalsPage = () => {
   // Delete a rental
   const handleDeleteRental = async (rentalId) => {
     try {
-      await axios.delete(`/api/rentals/${rentalId}`);
+      await axios.delete(`/rentals/${rentalId}`);
       setRentals(rentals.filter(rental => rental._id !== rentalId));
     } catch (error) {
       console.error("Error deleting rental:", error);
@@ -35,7 +35,7 @@ const RentalsPage = () => {
   // Update rental status
   const handleStatusChange = async (rentalId, newStatus) => {
     try {
-      await axios.put(`/api/rentals/${rentalId}`, { status: newStatus });
+      await axios.put(`/rentals/${rentalId}`, { status: newStatus });
       setRentals(rentals.map(rental =>
         rental._id === rentalId ? { ...rental, status: newStatus } : rental
       ));
@@ -49,7 +49,7 @@ const RentalsPage = () => {
     const selectedVehicle = vehicles.find(v => v.name === selectedVehicleName);
     if (!selectedVehicle) return alert('Vehicle not found');
     try {
-      const response = await axios.get(`/api/rentals/vehicle/${selectedVehicle._id}`);
+      const response = await axios.get(`/rentals/vehicle/${selectedVehicle._id}`);
       setVehicleRentals(response.data);
     } catch (error) {
       console.error("Error fetching vehicle rentals:", error);

@@ -9,8 +9,8 @@ const MyHistory = () => {
     const fetchHistory = async () => {
       if (!user || !user.email) return;
 
-      const orderRes = await fetch(`/api/orders/history?email=${user.email}`);
-      const rentalRes = await fetch(`/api/rentals/history?email=${user.email}`);
+      const orderRes = await fetch(`https://rvr-builders.onrender.com/api/orders/history?email=${user.email}`);
+      const rentalRes = await fetch(`https://rvr-builders.onrender.com/api/rentals/history?email=${user.email}`);
 
       setOrders(await orderRes.json());
       setRentals(await rentalRes.json());

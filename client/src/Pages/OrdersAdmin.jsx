@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import axios from 'axios'; // To make HTTP requests
+import axios from '../api/axios';
 
 const OrdersPage = () => {
   // State to store the orders data
@@ -9,7 +9,7 @@ const OrdersPage = () => {
   useEffect(() => {
     const fetchOrders = async () => {
       try {
-        const response = await axios.get('/api/orders');  // Fetch orders from your API
+        const response = await axios.get('/orders');  // Fetch orders from your API
         setOrders(response.data); // Store fetched orders in the state
       } catch (error) {
         console.error("Error fetching orders:", error);
@@ -22,7 +22,7 @@ const OrdersPage = () => {
   // Function to handle order status change
   const handleStatusChange = async (orderId, newStatus) => {
     try {
-      await axios.put(`/api/orders/${orderId}/status`, { status: newStatus }); // Update order status in backend
+      await axios.put(`/orders/${orderId}/status`, { status: newStatus }); // Update order status in backend
       setOrders(orders.map(order => order._id === orderId ? { ...order, status: newStatus } : order)); // Update status in the UI
     } catch (error) {
       console.error("Error updating order status:", error);

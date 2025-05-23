@@ -1,13 +1,12 @@
 // src/pages/DashboardPage.jsx
 
 import React, { useEffect, useState } from 'react';
-import axios from 'axios';
+import axios from '../api/axios';
 import {
   BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend,
   PieChart, Pie, Cell, ResponsiveContainer
 } from 'recharts';
 import jsPDF from 'jspdf';  // Import jsPDF for PDF generation
-import html2pdf from 'html2pdf.js';  // For HTML to PDF conversion
 
 const DashboardPage = () => {
   const [monthlyData, setMonthlyData] = useState([]);
@@ -22,7 +21,7 @@ const DashboardPage = () => {
   useEffect(() => {
     const fetchDashboardData = async () => {
       try {
-        const res = await axios.get('/api/admin/dashboard');
+        const res = await axios.get('/admin/dashboard');
         setMonthlyData(res.data.monthlyRevenue);
         setStatusData(res.data.statusDistribution);
         setRecentTransactions(res.data.recentTransactions);
