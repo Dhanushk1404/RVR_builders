@@ -1,5 +1,7 @@
 import Order from "../models/Order.js";
 import Material from "../models/Material.js";
+import { sendStockAlert, sendUserConfirmation } from '../middleware/mailer.js';
+
 
 export const placeOrder = async (req, res) => {
   try {
@@ -33,7 +35,14 @@ export const placeOrder = async (req, res) => {
     material.Stock -= item.quantity;
     await material.save();
 
+    if (material.Stock < 10) {
+  await sendStockAlert(material);
+}
+
     await newOrder.save();
+
+    await sendUserConfirmation(newOrder);
+
 
     res.status(201).json({ message: "Order placed successfully", order: newOrder });
 
